@@ -1,0 +1,19 @@
+---
+- name: installing utility softwares on machines
+  become: yes
+  hosts: all
+  tasks:
+    - name: install git
+      package: 
+        name: git
+        state: present
+    - name: install nano
+      package:
+        name: nano
+        state: present
+    - name: install tree
+      package:
+        name        
+
+
+
