@@ -1,0 +1,34 @@
+---
+- name: installing tomcat 8.5 on ubuntu
+  hosts: ubuntu
+  become: yes
+  tasks:
+    - name: install jdk on ubuntu
+      package:
+         name: openjdk-8-jdk
+         update_cache: yes
+         state: present
+    - name: create user and group tomcat
+      user:
+         name: tomcat
+         shell: /bin/false
+         home: /opt/tomcat
+    - name: Check whether group exists or not
+      group:
+         name: tomcat
+         state: present
+         system: yes
+    - name: install unzip and wget
+      package:
+         name: unzip,wget
+         state: present
+    - name: Downloading tomcat
+      get_url:
+         url: https://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.61/bin/apache-tomcat-8.5.61.zip
+         dest: /tmp/apache-tomcat-8.5.61.zip
+      notify:
+      - Extracting zip
+  handlers:
+    - name: Extracting zip
+      unarchive:
+         src: /tmp/apache-tomcat-8.5.61.zip
